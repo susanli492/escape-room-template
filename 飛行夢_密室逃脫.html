@@ -1,0 +1,68 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>飛行夢｜密室逃脫</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:"Microsoft JhengHei",sans-serif;color:#24404d;background:linear-gradient(#83d8f7,#e9faff 55%,#ffe9aa);min-height:100vh}
+.wrap{width:min(1000px,94%);margin:auto}.hero{text-align:center;padding:28px 10px 8px}.hero h1{font-size:clamp(40px,7vw,70px);margin:5px;color:#075985;text-shadow:0 3px white}
+.card{background:#fffffff0;border:2px solid white;border-radius:25px;padding:24px;margin:16px 0;box-shadow:0 15px 35px #25677a22}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+input{width:100%;padding:14px;border:2px solid #b9dfe6;border-radius:14px;font-size:17px}.modes{display:flex;gap:10px}.modes button{flex:1;padding:14px;border-radius:15px;border:2px solid #c5e2e6;background:white;font-weight:bold}.modes .on{background:#fff4c9;border-color:#e9a92e}
+button{cursor:pointer}.primary{width:100%;padding:14px;border:0;border-radius:14px;background:#168aad;color:white;font-weight:900;font-size:17px}.status{display:flex;gap:8px;flex-wrap:wrap}.pill{background:white;border-radius:999px;padding:8px 13px;border:1px solid #cae5e9;font-weight:bold}
+.progress{height:12px;background:#dcebed;border-radius:99px;overflow:hidden;margin-top:12px}.bar{height:100%;background:linear-gradient(90deg,#5aa469,#f2b43d);width:0}
+.map{min-height:410px;border-radius:22px;background:linear-gradient(#8edcf7 0 65%,#9dc96b 65%);position:relative;overflow:hidden;border:4px solid white}.plane{position:absolute;left:44%;top:42%;font-size:75px}
+.loc{position:absolute;width:88px;height:88px;border:0;border-radius:50%;background:white;box-shadow:0 7px 17px #255c6670;font-size:31px}.loc span{display:block;font-size:12px;font-weight:bold}.a{left:7%;top:12%}.b{left:8%;bottom:10%}.c{left:43%;top:8%}.d{right:8%;top:17%}.e{right:8%;bottom:10%}
+.question{font-size:22px;font-weight:900;line-height:1.6}.options{display:grid;grid-template-columns:1fr 1fr;gap:11px}.opt{padding:15px;background:white;border:2px solid #c9e4e7;border-radius:15px;text-align:left;line-height:1.5}.correct{background:#e8f8e9!important;border-color:#54a05e!important}.wrong{background:#fff0f0!important;border-color:#dc6d6d!important}
+.feedback{padding:13px;margin-top:13px;border-radius:13px;font-weight:bold}.good{background:#e8f8eb;color:#26723b}.bad{background:#fff0f0;color:#a22d2d}.parts{display:flex;gap:8px;flex-wrap:wrap}.part{width:50px;height:50px;border:2px dashed #aaa;border-radius:11px;display:grid;place-items:center;font-weight:bold}.part.on{background:#fff0a8;border-color:#eca82f}
+.hidden{display:none}.quote{background:#fff7d7;border-left:6px solid #e5a62c;padding:15px;border-radius:12px;line-height:1.8}.cert{text-align:center;border:5px double #d79a1e;border-radius:20px;padding:35px;background:#fffdf1}.cert h2{font-size:38px;color:#936300}
+@media(max-width:700px){.grid,.options{grid-template-columns:1fr}.card{padding:17px}.loc{width:65px;height:65px;font-size:23px}.a,.b{left:2%}.d,.e{right:2%}.c{left:39%}}
+</style></head><body>
+<div class="wrap"><div class="hero"><b>📚 115國語四上・第四課</b><h1>✈️ 飛行夢</h1><h3>林茂興｜萊特兄弟藍天密室</h3></div>
+<section id="start" class="card grid"><div><h2>🔐 1903 飛行實驗室</h2><p>五座研究站的密碼被鎖住了！跟著萊特兄弟從老鷹的啟發、滑翔機問題、安全改良、動力突破，一路完成第一次飛行。</p><div class="quote">🦅「我要讓人們像老鷹一樣，在天上飛行。」</div></div>
+<div><h3>👩‍🔧 飛行工程師姓名</h3><input id="name" placeholder="請輸入姓名"><h3>🎯 挑戰模式</h3><div class="modes"><button id="m5" class="on" onclick="modeSet(5)">🌱 5關<br><small>基本理解</small></button><button id="m10" onclick="modeSet(10)">🔥 10關<br><small>深度挑戰</small></button></div><br><button class="primary" onclick="begin()">🚀 啟動飛行實驗</button></div></section>
+<section id="game" class="hidden"><div class="card"><div class="status"><span class="pill">👤 <span id="player"></span></span><span class="pill">⚙️ 零件 <span id="score">0</span>/<span id="total"></span></span><span class="pill">🔬 第 <span id="stage">1</span> 關</span></div><div class="progress"><div id="bar" class="bar"></div></div></div>
+<div id="mapcard" class="card"><h2>🗺️ 飛行實驗場</h2><p>點擊研究站，尋找課文線索。</p><div class="map"><div class="plane">🛩️</div><button class="loc a" onclick="openQ('dream')">🦅<span>老鷹夢想</span></button><button class="loc b" onclick="openQ('glider')">🪂<span>滑翔危機</span></button><button class="loc c" onclick="openQ('safe')">⚙️<span>安全改良</span></button><button class="loc d" onclick="openQ('power')">🚗<span>動力突破</span></button><button class="loc e" onclick="openQ('flight')">✈️<span>1903首飛</span></button></div></div>
+<div id="quiz" class="card hidden"><button onclick="back()">← 回實驗場</button><div id="q" class="question"></div><div id="opts" class="options"></div><div id="fb"></div></div><div class="card"><h3>🧩 已取得飛行零件</h3><div id="parts" class="parts"></div></div></section>
+<section id="finish" class="card hidden"><div class="cert"><div style="font-size:65px">🏆✈️☁️</div><h2>飛行夢完成！</h2><p id="cert"></p><div class="quote"><b>夢想 × 安全 × 研究 × 試驗 × 堅持</b></div><br><button class="primary" onclick="location.reload()">🔄 再飛一次</button></div></section></div>
+<script>
+const basic=[
+['dream','萊特兄弟小時候看到什麼，而產生飛行夢？',['天空飛翔的老鷹','海裡游泳的魚','路上奔跑的汽車','草原上的馬']],
+['dream','長大後，萊特兄弟在哪裡工作？',['自行車行','飛機場','汽車工廠','火車站']],
+['glider','當時人們主要用什麼進行飛行實驗？',['滑翔機','直升機','噴射機','火箭']],
+['glider','當時滑翔機最大的問題是什麼？',['無法精準控制方向，時常發生意外','飛得太快','只能夜間飛行','完全不能載人']],
+['safe','萊特兄弟改良飛行器時最重視什麼？',['安全','外觀','價格','速度']],
+['safe','他們把哪種動物控制方向的原理應用在滑翔機上？',['鳥類','魚類','馬','昆蟲']],
+['power','哥哥看到什麼經過後靈光一閃？',['汽車','火車','輪船','自行車']],
+['power','別人說他們異想天開，他們怎麼做？',['仍一次又一次進行試驗','立刻放棄','停止研究','改研究火車']],
+['flight','飛機成功升空是哪一天？',['一九○三年十二月十七日','一九○三年一月十七日','一九一三年十二月十七日','一八○三年十二月十七日']],
+['flight','第一次成功試飛在哪裡？',['北卡羅萊納州小鷹鎮','紐約','華盛頓','洛杉磯']],
+['flight','第一次試飛時是誰開著飛機？',['弟弟','哥哥','總統','自行車行老闆']],
+['flight','飛機離開地面時，人們有什麼反應？',['高聲歡呼','立刻離開','非常生氣','沒有注意']],
+['dream','萊特兄弟的夢想是什麼？',['讓人們像老鷹一樣在天上飛行','造最快自行車','成為汽車工程師','研究鳥類']],
+['safe','兩兄弟為改良飛行器做了什麼？',['細心研究並運用許多器材','只靠猜測','停止實驗','改研究火車']],
+['power','哥哥想到把汽車的什麼應用在滑翔機上？',['動力來源','車燈','輪胎顏色','方向盤外形']],
+['glider','「如果失去生命，飛翔還有什麼意義？」說明他們最重視什麼？',['飛行安全','飛行高度','飛行速度','飛機外觀']]];
+const expert=[
+['dream','開頭寫老鷹飛翔，對全文有什麼作用？',['引出飛行夢，並和後文飛機像老鷹飛起來相呼應','只介紹老鷹習性','表示想研究鳥類','表示人類不能飛']],
+['dream','「無論工作有多忙碌，都沒有忘記飛行夢想」表現什麼？',['始終記得目標、堅持夢想','容易改變主意','只重視收入','害怕挑戰']],
+['glider','先寫滑翔機無法精準控制方向，主要交代什麼？',['為什麼要以安全為目標改良','為什麼停止實驗','自行車行很忙','老鷹如何飛']],
+['glider','「如果失去生命，飛翔還有什麼意義？」有何作用？',['強調安全比單純飛上天空更重要','詢問票價','表示不想飛','表示生命和飛翔無關']],
+['safe','研究鳥類飛行原理再應用到滑翔機，展現什麼能力？',['觀察自然、研究原理並實際應用','只靠運氣','完全模仿別人','拒絕改變']],
+['safe','「細心研究」「運用許多器材」看出什麼研究態度？',['認真、謹慎並重視實驗','隨便草率','只靠想像','遇問題就放棄']],
+['power','「如果沒有風，滑翔機要怎麼飛起來？」有何作用？',['引出尋找動力的新問題與突破','表示放棄','說明永遠不能飛','介紹天氣']],
+['power','看到汽車而靈光一閃，最能說明什麼？',['創意可從生活觀察與事物連結中產生','答案只在課本','不必觀察','嘲笑能解決問題']],
+['power','面對「異想天開」的質疑仍不斷試驗，突顯什麼？',['面對質疑仍堅持實驗與夢想','害怕失敗','只想證明別人錯','拒絕安全意見']],
+['power','「一定要飛上藍天！」表現怎樣的心情？',['堅定、有決心、不輕易放棄','猶豫害怕','冷淡','後悔']],
+['flight','成功時再次寫「像老鷹一樣飛起來」有何效果？',['呼應童年夢想，呈現夢想終於實現','飛機就是老鷹','只能照老鷹路線飛','沒有作用']],
+['flight','具體寫日期與小鷹鎮，主要有何效果？',['交代重要歷史時刻與地點，使事件更清楚','只是增加字數','作者也在現場','只能早上飛']],
+['flight','人們在試飛地點立紀念碑是為了什麼？',['紀念萊特兄弟完成飛行夢','紀念自行車行','紀念老鷹','紀念汽車']],
+['flight','飛機升空百年後總統感謝他們，說明什麼？',['成果對後世航空與人類生活有長遠影響','只影響自行車行','很快被遺忘','只能在小鷹鎮使用']],
+['flight','全文從夢想到問題、改良、試驗、成功，呈現什麼？',['夢想需要研究、解決問題與持續行動才能實現','只要夢想就會成功','發明不會失敗','成功只靠鼓勵']],
+['flight','哪一項最能概括全文主旨？',['憑夢想、研究、創意與堅持克服問題並完成飛行夢','介紹老鷹與自然環境','介紹自行車行','比較交通工具速度']]];
+let mode=5,score=0,cur=null,used=new Set(),locked=false;const chars=['夢','想','勇','敢','飛','上','藍','天','✈','★'];
+function modeSet(n){mode=n;m5.classList.toggle('on',n===5);m10.classList.toggle('on',n===10)}
+function begin(){let n=name.value.trim();if(!n){alert('請先輸入姓名！');return}start.classList.add('hidden');game.classList.remove('hidden');player.textContent=n;total.textContent=mode;render();prog()}
+function render(){parts.innerHTML='';for(let i=0;i<mode;i++){let d=document.createElement('div');d.className='part'+(i<score?' on':'');d.textContent=i<score?chars[i]:'?';parts.appendChild(d)}}
+function prog(){document.getElementById('score').textContent=score;bar.style.width=(score/mode*100)+'%'}
+function openQ(area){let bank=mode===5?basic:expert;let p=bank.filter(x=>x[0]===area&&!used.has(x[1]));if(!p.length)p=bank.filter(x=>!used.has(x[1]));cur=p[Math.floor(Math.random()*p.length)];used.add(cur[1]);mapcard.classList.add('hidden');quiz.classList.remove('hidden');stage.textContent=score+1;q.textContent='🔐 飛行線索 '+(score+1)+'：'+cur[1];let arr=cur[2].map((x,i)=>[x,i===0]).sort(()=>Math.random()-.5);opts.innerHTML='';arr.forEach(v=>{let b=document.createElement('button');b.className='opt';b.textContent=v[0];b.onclick=()=>ans(b,v[1]);opts.appendChild(b)});fb.innerHTML='';locked=false}
+function ans(b,ok){if(locked)return;if(ok){locked=true;b.classList.add('correct');score++;render();prog();fb.innerHTML='<div class="feedback good">✨ 實驗成功！取得一個飛行零件！</div>';setTimeout(()=>score>=mode?done():back(),800)}else{b.classList.add('wrong');fb.innerHTML='<div class="feedback bad">🔎 再讀一次課文，想想萊特兄弟遇到的問題與解決方法。</div>'}}
+function back(){quiz.classList.add('hidden');mapcard.classList.remove('hidden');stage.textContent=score+1}
+function done(){game.classList.add('hidden');finish.classList.remove('hidden');cert.textContent='🎓 恭喜「'+name.value.trim()+'」成為藍天飛行工程師！ 完成 '+score+' / '+mode+' 關。'}
+</script></body></html>
