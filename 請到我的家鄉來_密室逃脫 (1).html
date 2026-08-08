@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>請到我的家鄉來｜閱讀密室逃脫</title>
+<style>
+:root{
+ --sky-top:#b9efff;--sky-mid:#e9fbff;--sky-bot:#fff1cf;
+ --blue:#168aad;--deep:#155e75;--orange:#f59f00;--green:#52a447;
+ --cream:#fffaf0;--ink:#263b45;--white:#fff;--shadow:0 14px 34px #236b7b24
+}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;
+ background:linear-gradient(180deg,var(--sky-top),var(--sky-mid) 45%,var(--sky-bot));min-height:100vh;overflow-x:hidden}
+.cloud{position:fixed;z-index:-1;background:#fff;border-radius:100px;opacity:.55;filter:blur(1px)}
+.cloud:before,.cloud:after{content:"";position:absolute;background:#fff;border-radius:50%}
+.cloud:before{width:70px;height:70px;left:25px;top:-35px}.cloud:after{width:95px;height:95px;right:20px;top:-50px}
+.c1{width:190px;height:55px;top:8%;left:4%;animation:drift 24s linear infinite}.c2{width:240px;height:65px;top:20%;right:3%;animation:drift 30s linear reverse infinite}.c3{width:160px;height:45px;top:58%;left:20%;animation:drift 28s linear infinite}
+@keyframes drift{50%{transform:translateX(55px)}}
+header{text-align:center;padding:28px 14px 12px}
+.badge{display:inline-block;background:#ffffffbb;border:2px solid #fff;border-radius:999px;padding:7px 16px;font-weight:800}
+h1{font-size:clamp(34px,6vw,62px);margin:9px 0 3px;color:#075985;text-shadow:0 3px #fff}
+.subtitle{font-size:clamp(17px,2.6vw,24px);font-weight:800;color:#3d7b43}
+.wrap{width:min(1050px,94%);margin:auto}
+.card{background:#ffffffed;border:2px solid #fff;border-radius:26px;box-shadow:var(--shadow);padding:24px;margin:16px 0}
+.hero{background:linear-gradient(135deg,#ffffffec,#fff9e8ee)}
+.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:20px}
+h2{color:var(--deep);margin-top:4px}
+p{line-height:1.85}
+.letter{background:#fffdf5;border:1px solid #ecd9ae;border-radius:18px;padding:20px;line-height:2;font-size:17px;box-shadow:inset 0 0 30px #f4dcae22}
+.letter b{color:#9a6300}
+.story{font-size:18px}
+input{width:100%;padding:14px 16px;border:2px solid #b8dfe6;border-radius:14px;font-size:17px;background:#fff}
+.mode{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.mode button{flex:1;min-width:160px;text-align:left;padding:15px;border-radius:17px;background:#fff;border:2px solid #c6e5ea}
+.mode button.sel{border-color:var(--orange);background:#fff6d8;box-shadow:0 0 0 3px #ffd43b44}
+.mode b{display:block;font-size:19px}.mode small{color:#65777d}
+.primary,.secondary{border-radius:14px;padding:13px 20px;font-weight:900;border:0}
+.primary{background:linear-gradient(135deg,#168aad,#22b8cf);color:#fff;box-shadow:0 8px 18px #168aad33}
+.secondary{background:#fff;border:2px solid #acdbe2;color:#156274}
+.full{width:100%}
+.status{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.pill{background:#fff;border:1px solid #cde7eb;border-radius:999px;padding:7px 13px;font-weight:800}
+.progress{height:12px;background:#dcecef;border-radius:99px;overflow:hidden}.bar{height:100%;width:0;background:linear-gradient(90deg,#52a447,#f59f00);transition:.3s}
+.map{position:relative;min-height:420px;border-radius:24px;overflow:hidden;background:linear-gradient(#9ee9ff 0 45%,#35b7ca 45% 59%,#8bc96d 59%);border:4px solid #fff}
+.map:before{content:"";position:absolute;inset:59% 0 0;background:repeating-linear-gradient(110deg,#75b95e 0 32px,#68aa55 32px 64px);opacity:.65}
+.sun{position:absolute;right:5%;top:4%;font-size:68px}
+.island{position:absolute;left:50%;top:51%;transform:translate(-50%,-50%) rotate(6deg);width:210px;height:285px;border-radius:48% 52% 45% 55%/38% 44% 56% 62%;background:#b5df78;border:5px solid #4d8f4d;box-shadow:inset -20px -10px #91c667}
+.spot{position:absolute;width:82px;height:82px;border:0;border-radius:50%;background:#fff;box-shadow:0 7px 16px #255b6570;font-size:31px;z-index:2}
+.spot span{display:block;font-size:12px;font-weight:900;white-space:nowrap;margin-top:3px}
+.s1{left:10%;top:59%}.s2{left:34%;top:12%}.s3{right:9%;top:50%}.s4{left:55%;bottom:5%}.s5{right:28%;bottom:11%}
+.question{font-size:21px;line-height:1.65;font-weight:900;margin:18px 0}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.opt{border:2px solid #c9e6ea;background:#fff;border-radius:15px;padding:15px;text-align:left;font-size:16px;line-height:1.55;transition:.15s}
+.opt:hover{transform:translateY(-2px);border-color:#56b8c5}.opt.correct{background:#e7f8e9;border-color:#50a05b}.opt.wrong{background:#fff0f0;border-color:#dc6d6d}
+.feedback{padding:13px 16px;border-radius:14px;margin-top:14px;font-weight:800}.good{background:#e8f8eb;color:#24733b}.bad{background:#fff1f1;color:#a22e2e}
+.fragments{display:flex;gap:8px;flex-wrap:wrap}.frag{width:52px;height:52px;border:2px dashed #aab7ba;border-radius:12px;display:grid;place-items:center;font-weight:900;background:#f8f8f8}.frag.on{background:#fff0a8;border-color:#f59f00;color:#936000}
+.postcard{background:#fff;border:1px solid #ddd0af;border-radius:18px;padding:18px;position:relative}
+.postcard:after{content:"📮";position:absolute;right:16px;top:12px;font-size:35px}
+.stamp{display:inline-block;border:2px dashed #d4775e;padding:6px 10px;color:#b65d49;font-weight:900;transform:rotate(-4deg)}
+.certificate{text-align:center;padding:35px;border:5px double #d3941c;border-radius:22px;background:linear-gradient(135deg,#fffdf1,#eafff0)}
+.certificate h2{font-size:38px;color:#996400}
+.small{font-size:14px;color:#64777d}
+.hidden{display:none!important}
+@media(max-width:720px){.grid,.options{grid-template-columns:1fr}.card{padding:17px}.map{min-height:390px}.island{width:165px;height:235px}.spot{width:63px;height:63px;font-size:24px}.s1{left:3%}.s2{left:23%}.s3{right:2%}}
+</style>
+</head>
+<body>
+<div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div>
+
+<header>
+ <div class="badge">📚 115國語四上・第壹單元</div>
+ <h1>✉️ 請到我的家鄉來</h1>
+ <div class="subtitle">許玉蘭｜家鄉探索・書信解謎密室</div>
+</header>
+
+<main class="wrap">
+<section id="start" class="card hero">
+ <div class="grid">
+  <div>
+   <h2>🗺️ 家鄉明信片失蹤事件</h2>
+   <p class="story">安安和柔柔表姊用書信分享家鄉。可是，一張重要的「家鄉寶藏明信片」被鎖進旅行箱了！</p>
+   <p class="story">你要沿著兩位表姊妹的旅行足跡，破解<strong>宜蘭冷泉、臺南水火同源、左鎮化石園區、國立傳統藝術中心</strong>四大線索，找回最後的家鄉密碼。</p>
+   <div class="postcard">
+    <span class="stamp">TAIWAN TRAVEL ✈</span>
+    <p><b>柔柔寫給安安：</b><br>「好期待能到你的家鄉拜訪。」</p>
+    <p><b>安安回信：</b><br>「我要帶你泡冷泉，還要看美景、吃美食！」</p>
+   </div>
+  </div>
+  <div>
+   <h3>👩‍🎓 冒險者姓名</h3>
+   <input id="name" placeholder="請輸入你的名字">
+   <h3>🎯 挑戰模式</h3>
+   <div class="mode">
+    <button id="m5" class="sel" onclick="setMode(5)"><b>🌱 Beginner 探索</b><small>5 關・約 3 分鐘</small></button>
+    <button id="m10" onclick="setMode(10)"><b>🔥 Expert 挑戰</b><small>10 關・約 5 分鐘</small></button>
+   </div>
+   <button class="primary full" onclick="begin()">🔐 開啟家鄉旅行箱</button>
+   <p class="small">每破解一題，就會取得一個「家鄉字片」。集滿後即可解開旅行箱。</p>
+  </div>
+ </div>
+</section>
+
+<section id="game" class="hidden">
+ <div class="card">
+  <div class="status">
+   <div class="pill">👤 <span id="player"></span></div>
+   <div class="pill">🧩 家鄉字片 <span id="score">0</span>/<span id="total">5</span></div>
+   <div class="pill">🔐 線索 <span id="stage">1</span></div>
+  </div>
+  <div class="progress"><div class="bar" id="bar"></div></div>
+ </div>
+
+ <div id="map" class="card">
+  <h2>🧭 家鄉旅行地圖</h2>
+  <p>點擊一個地點，尋找書信裡的線索！</p>
+  <div class="map">
+   <div class="sun">☀️</div><div class="island"></div>
+   <button class="spot s1" onclick="openArea('cold')">🧊<span>宜蘭冷泉</span></button>
+   <button class="spot s2" onclick="openArea('fire')">🔥<span>水火同源</span></button>
+   <button class="spot s3" onclick="openArea('fossil')">🦕<span>左鎮化石</span></button>
+   <button class="spot s4" onclick="openArea('art')">🎭<span>傳統藝術</span></button>
+   <button class="spot s5" onclick="openArea('letter')">✉️<span>書信密碼</span></button>
+  </div>
+ </div>
+
+ <div id="quiz" class="card hidden">
+  <button class="secondary" onclick="backMap()">← 回地圖</button>
+  <div class="question" id="q"></div>
+  <div class="options" id="opts"></div>
+  <div id="fb"></div>
+ </div>
+
+ <div class="card">
+  <h3>🧩 已找到的家鄉字片</h3>
+  <div class="fragments" id="fragments"></div>
+ </div>
+</section>
+
+<section id="finish" class="card hidden">
+ <div class="certificate">
+  <div style="font-size:65px">🏆✉️🧳</div>
+  <h2>家鄉旅行箱解鎖！</h2>
+  <p id="certName" style="font-size:25px;font-weight:900"></p>
+  <p>你已經讀懂〈請到我的家鄉來〉，成功整理出兩位表姊妹分享家鄉的線索。</p>
+  <div class="postcard"><b>🎉 家鄉密語：看美景・吃美食・玩體驗・傳文化</b></div>
+  <p>🧩 完成：<b id="finalScore"></b></p>
+  <button class="primary" onclick="location.reload()">🔄 再玩一次</button>
+ </div>
+</section>
+</main>
+
+<script>
+const QDB={
+beginner:[
+ {area:"cold",q:"安安的家鄉是哪裡？",a:["宜蘭","臺南","臺北","高雄"]},
+ {area:"cold",q:"安安形容蘇澳冷泉有什麼特別的感覺？",a:["腳一伸進水裡，牙齒就開始打架，氣泡很快布滿身體","水溫像溫泉一樣非常溫暖，而且完全沒有氣泡","泡進去後身體會變得很熱，還會看到火焰從水中冒出","冷泉裡有大量冰塊，所以必須穿著厚外套才能進入"]},
+ {area:"cold",q:"「大大小小的氣泡就快速布滿我身上」中的「彷彿泡在汽水裡」使用了什麼寫法？",a:["譬喻，把冷泉中的氣泡比作汽水","排比，把三個相同句型排列在一起","設問，提出問題後自己回答","擬人，把汽水寫成會說話的人"]},
+ {area:"fire",q:"柔柔到臺南旅遊時，在「水火同源」看到了什麼景象？",a:["火從水中不斷冒出","冰雪從水面慢慢落下","陀螺在水中不停旋轉","恐龍化石從泉水裡浮出來"]},
+ {area:"fire",q:"柔柔原本認為「水火不相容」，後來看到水火同源時有什麼感受？",a:["驚訝，發現原本以為不能共存的水和火竟然可以同時出現","害怕，認為水火同源是一個非常危險而不能靠近的地方","失望，因為她期待看到的是整片結冰的湖面","生氣，覺得安安故意欺騙她家鄉的景點"]},
+ {area:"fossil",q:"柔柔在臺南哪一個地方參觀時買了明信片？",a:["左鎮化石園區","國立傳統藝術中心","蘇澳冷泉","水火同源"]},
+ {area:"fossil",q:"左鎮化石園區讓柔柔「大開眼界」，因為那裡有什麼？",a:["古生物、恐龍化石，以及許多新奇的體驗活動","許多冷泉、溫泉和水火同源的特殊自然景觀","布袋戲、陀螺和各式各樣的傳統童玩","香蕉、鳳梨與各種臺灣著名的水果市場"]},
+ {area:"art",q:"安安最近和外公去了哪裡？",a:["國立傳統藝術中心","左鎮化石園區","蘇澳冷泉","水火同源"]},
+ {area:"art",q:"在國立傳統藝術中心，外公教安安玩什麼？",a:["打陀螺","挖恐龍化石","泡蘇澳冷泉","觀察水火同源"]},
+ {area:"art",q:"外公教安安玩童玩時，為什麼讓他有「好像回到他小時候」的感覺？",a:["因為這些傳統童玩讓外公想起自己童年時的遊戲與回憶","因為外公第一次看到陀螺，所以覺得自己回到了很久以前","因為傳統藝術中心有一台時間機器，可以讓人回到童年","因為安安和外公一起泡冷泉，冷泉讓他想起小時候"]},
+ {area:"letter",q:"這篇課文主要用什麼形式呈現兩位表姊妹的家鄉分享？",a:["一來一往的書信","一篇介紹景點的新聞報導","兩個人的旅遊日記","一張景點介紹的海報"]},
+ {area:"letter",q:"柔柔和安安一共寫了幾封信？",a:["四封","兩封","三封","六封"]},
+ {area:"letter",q:"柔柔和安安分享家鄉時，主要介紹了哪些內容？",a:["景點特色、旅遊體驗、美食與傳統文化等家鄉特色","學校考試、家庭作業、老師上課與同學相處等校園生活","世界各國的地理位置、氣候、人口與經濟發展資料","每天的天氣預報、交通事故與新聞事件等即時資訊"]},
+ {area:"letter",q:"下列哪一項最符合課文中「請到我的家鄉來」的情感？",a:["熱情邀請親人來家鄉遊玩，分享自己熟悉的美好事物","希望親人不要到自己的家鄉，避免打擾平靜的生活","介紹家鄉的缺點，希望親人來幫忙解決生活問題","提醒親人旅遊時一定不能接觸任何傳統文化活動"]},
+ {area:"letter",q:"安安邀請柔柔到宜蘭時，說自己要帶她做什麼？",a:["泡冷泉、看美景、吃美食","挖化石、打陀螺、看布袋戲","看恐龍、泡溫泉、參觀博物館","看火焰、玩陀螺、購買明信片"]},
+ {area:"letter",q:"課文中兩位表姊妹雖然住在不同地方，卻透過什麼方式分享家鄉？",a:["寫信，互相介紹旅遊經驗與家鄉特色","每天搭火車見面，一起到各地參觀","透過電視節目互相介紹各地的景點","只用明信片，不曾在信中分享自己的生活"]}
+],
+expert:[
+ {area:"cold",q:"安安用「牙齒打架」形容泡冷泉的感覺，這樣寫的好處是什麼？",a:["把寒冷的身體感受寫得生動有趣，讓讀者容易想像","表示安安真的因為泡冷泉而把牙齒撞壞了，所以需要看醫生","讓文章變得正式嚴肅，適合用來說明冷泉的科學原理","說明冷泉裡真的有很多牙齒，安安因此感到非常害怕"]},
+ {area:"cold",q:"「彷彿泡在汽水裡」與「牙齒開始打架」共同呈現出什麼寫作特色？",a:["運用生動的比喻與生活化說法，把感官經驗寫得具體有趣","大量使用專業術語，精確說明冷泉的化學成分","以冷靜客觀的方式列出水溫數據，完全沒有個人感受","刻意使用艱深的成語，讓讀者需要查字典才能理解"]},
+ {area:"fire",q:"「我以為水火不相容，沒想到水和火竟然是好朋友！」這句話最能表現柔柔的什麼？",a:["由原本的認知轉變為驚奇，並用童趣的方式表達發現","她一直知道水火可以共存，只是故意裝作不知道來逗安安","她對水火同源感到害怕，所以想立刻離開景點回家","她認為水和火真的具有人的感情，而且正在彼此交朋友"]},
+ {area:"fire",q:"課文安排「水火同源」這個景點，對全文有什麼作用？",a:["透過特殊景觀引起驚奇，呈現臺南家鄉的獨特與有趣","用來說明臺南沒有其他值得介紹的自然與文化景點","讓讀者了解所有水火同源景點都比宜蘭冷泉更加寒冷","主要是為了介紹火災安全知識，提醒孩子遠離所有水與火"]},
+ {area:"fossil",q:"柔柔說左鎮化石園區「不但有古生物，還有我最愛的恐龍化石」，這句話使用了什麼關聯詞？",a:["不但……還……","因為……所以……","雖然……但是……","如果……就……"]},
+ {area:"fossil",q:"「不但有古生物，還有我最愛的恐龍化石」的表達效果是什麼？",a:["強調園區內容豐富，而且還有柔柔特別喜歡的恐龍化石","表示園區只有恐龍化石，其他古生物其實都不存在","說明柔柔只喜歡古生物，對其他體驗活動完全沒有興趣","表示柔柔原本不喜歡化石，後來才勉強接受恐龍化石"]},
+ {area:"art",q:"外公「興奮的說明各種童玩的玩法」，這個細節最能看出外公怎樣的心情？",a:["對童年記憶與傳統遊戲充滿熱情，很樂意與晚輩分享","對傳統童玩完全不感興趣，只是為了陪安安才勉強介紹","擔心安安不會玩童玩，所以一直嚴肅地要求她照規則操作","因為童玩非常昂貴，所以外公急著提醒安安要小心保管"]},
+ {area:"art",q:"從「好像回到他小時候」可以推測，傳統童玩在外公心中具有什麼意義？",a:["不只是遊戲，也連結了童年回憶與世代傳承","只是昂貴的收藏品，主要價值在於放進展示櫃裡保存","代表現代科技進步，能讓人回到過去的時間","只是學校課堂中的教材，和家庭回憶沒有關係"]},
+ {area:"letter",q:"四封信的內容有一個共同特色，下列哪一項最恰當？",a:["都從親身經驗出發，分享家鄉的景點、活動與感受","都以景點價格為中心，詳細比較各地旅遊花費","都以說明地理知識為主，幾乎沒有人物的感受與對話","都在討論學校功課，家鄉景點只是偶然提到的背景"]},
+ {area:"letter",q:"課文把「宜蘭」與「臺南」交錯介紹，這樣安排有什麼效果？",a:["讓兩地家鄉特色彼此呼應，也呈現孩子之間互相分享的交流","讓讀者誤以為宜蘭與臺南其實是同一個地方，故意製造地理錯誤","只是為了增加景點數量，並沒有和人物的書信往來產生關係","使文章變成旅遊廣告，只需要記住景點名稱即可"]},
+ {area:"letter",q:"如果把四封信依「分享家鄉特色」整理，下列分類最完整的是哪一項？",a:["自然景觀、古生物、傳統文化、旅遊體驗","學校生活、考試成績、家庭作業、運動比賽","交通建設、產業發展、人口統計、行政區域","天氣預報、新聞事件、商品價格、交通事故"]},
+ {area:"letter",q:"課文中「你一定要來試一試！」與「快點來玩吧！」反覆出現類似的邀請，主要營造什麼效果？",a:["呈現人物熱情好客、迫不及待想與親人分享家鄉的心情","表示人物其實不想對方來，只是用客套話完成書信格式","讓文章變得像命令通知，要求對方一定要服從安排","表示人物沒有其他話可以說，只能不斷重複同一句話"]},
+ {area:"letter",q:"若要用一句話概括課文的核心精神，哪一項最適合？",a:["透過書信分享家鄉之美，感受親情、交流與文化傳承","透過旅行比較哪個城市的景點最多，決定最值得居住的地方","透過介紹冷泉與化石，教讀者背誦所有景點的歷史資料","透過四封書信說明不同城市的交通方式與旅遊費用"]},
+ {area:"letter",q:"如果你要仿寫這篇課文介紹自己的家鄉，最適合的寫作方式是？",a:["寫信給親友，介紹一個特色景點，再加入自己的親身感受與邀請","只列出家鄉所有景點名稱，不描述任何看到、聽到或感受到的事情","只寫家鄉人口與面積等資料，不加入人物或生活經驗","把旅遊景點全部改成別人的故事，自己不需要提供任何感受"]},
+ {area:"letter",q:"課文最後以「一起玩呢！」作結，和全文的開頭「好久不見，近來好嗎？」互相呼應，最能突顯什麼？",a:["從問候、分享一路發展到期待團聚，讓親情與交流成為全文情感主線","表示四封信其實互不相關，人物只是剛好使用相同的稱呼與祝福語","說明作者最關心的是書信格式，而不是人物之間的感情與家鄉","暗示人物最後決定不再旅行，所以用玩耍作為故事的結束方式"]},
+ {area:"letter",q:"「請到我的家鄉來」作為課文題目，最主要的「請」字帶有什麼語氣？",a:["親切、熱情的邀請，讓家鄉分享成為親人交流感情的方式","嚴格、命令的要求，表示對方一定要按照自己的安排旅行","冷淡、客氣的詢問，表示人物其實不在乎對方是否到訪","害怕、退縮的請求，表示人物擔心家鄉景點不值得參觀"]}
+]
+};
+
+let mode=5,score=0,current=null,used=new Set(),answered=false;
+const fragments=["宜","蘭","臺","南","家","鄉","來","玩","吧","❤️"];
+
+function setMode(n){mode=n;document.getElementById("m5").classList.toggle("sel",n===5);document.getElementById("m10").classList.toggle("sel",n===10)}
+function begin(){
+ const n=document.getElementById("name").value.trim();
+ if(!n){alert("請先輸入冒險者姓名！");return}
+ document.getElementById("start").classList.add("hidden");document.getElementById("game").classList.remove("hidden");
+ document.getElementById("player").textContent=n;document.getElementById("total").textContent=mode;
+ render();progress();
+}
+function render(){
+ const box=document.getElementById("fragments");box.innerHTML="";
+ for(let i=0;i<mode;i++){const d=document.createElement("div");d.className="frag"+(i<score?" on":"");d.textContent=i<score?fragments[i]:"?";box.appendChild(d)}
+}
+function progress(){document.getElementById("score").textContent=score;document.getElementById("bar").style.width=(score/mode*100)+"%"}
+function openArea(area){
+ const bank=mode===5?QDB.beginner:QDB.expert;
+ let pool=bank.filter(x=>x.area===area&&!used.has(x.q));
+ if(!pool.length)pool=bank.filter(x=>!used.has(x.q));
+ if(!pool.length){alert("這個地點的線索都已破解！請探索其他地點。");return}
+ current=pool[Math.floor(Math.random()*pool.length)];used.add(current.q);showQuestion();
+}
+function showQuestion(){
+ document.getElementById("map").classList.add("hidden");document.getElementById("quiz").classList.remove("hidden");
+ document.getElementById("stage").textContent=score+1;document.getElementById("q").textContent="🔐 家鄉線索 "+(score+1)+"： "+current.q;
+ const arr=current.a.map((text,i)=>({text,correct:i===0}));
+ for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}
+ const box=document.getElementById("opts");box.innerHTML="";
+ arr.forEach(x=>{const b=document.createElement("button");b.className="opt";b.textContent=x.text;b.onclick=()=>answer(b,x.correct);box.appendChild(b)});
+ document.getElementById("fb").innerHTML="";answered=false;
+}
+function answer(btn,ok){
+ if(answered)return;
+ if(ok){
+  answered=true;btn.classList.add("correct");score++;render();progress();
+  document.getElementById("fb").innerHTML='<div class="feedback good">🎉 破解成功！取得一個家鄉字片！</div>';
+  setTimeout(()=>score>=mode?finish():backMap(),850);
+ }else{
+  btn.classList.add("wrong");document.getElementById("fb").innerHTML='<div class="feedback bad">🔎 再讀一次線索！想想書信中的人物、地點和感受。</div>';
+ }
+}
+function backMap(){document.getElementById("quiz").classList.add("hidden");document.getElementById("map").classList.remove("hidden");document.getElementById("stage").textContent=score+1}
+function finish(){
+ document.getElementById("game").classList.add("hidden");document.getElementById("finish").classList.remove("hidden");
+ document.getElementById("certName").textContent="🎓 恭喜「"+document.getElementById("name").value.trim()+"」完成家鄉探索！";
+ document.getElementById("finalScore").textContent=score+" / "+mode;
+}
+</script>
+</body>
+</html>
